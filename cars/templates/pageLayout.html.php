@@ -22,7 +22,7 @@
         <li><a href="/Stories/inventory">Home</a></li>
         <li><a href="/Cars/inventory">Showroom</a></li>
         <li><a href="/about.html">About Us</a></li>
-        <li><a href="/contact.php">Contact us</a></li>
+        <li><a href="/Contacts/addEdit">Contact us</a></li>
         <li><a href="/Cars/career">Claire's Career</a></li>
     </ul>
 

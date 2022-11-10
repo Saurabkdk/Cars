@@ -23,17 +23,6 @@ class Cars
         ];
     }
 
-    public function home(){
-        $home = "Welcome to Claire's Cars, Northampton's specialist in classic and import cars.";
-        return [
-            'pageTemplate'=>'carsHome.html.php',
-            'titleOfThePage'=>'Home',
-            'key'=>[
-                'home'=>$home
-            ]
-        ];
-    }
-
     public function career(){
         $career = "Claire’s Cars currently has no job opportunities available, but keep checking as new positions become available regularly!";
         return [

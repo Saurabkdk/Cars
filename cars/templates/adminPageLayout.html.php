@@ -22,7 +22,7 @@
         <li><a href="/">Home</a></li>
         <li><a href="/Cars/inventory">Showroom</a></li>
         <li><a href="/about.html">About Us</a></li>
-        <li><a href="/contact.php">Contact us</a></li>
+        <li><a href="/Contacts/addEdit">Contact us</a></li>
         <li><a href="/Cars/career">Claire's Career</a></li>
     </ul>
 
@@ -38,6 +38,7 @@
             <li><a href="../AdminArchive/inventory">Archive</a></li>
             <li><a href="../Administrators/inventory">Administrators</a></li>
             <li><a href="../Stories/addEdit">Add News/Story</a></li>
+            <li><a href="../Contacts/inventory">Enquiries</a></li>
             <li><a href="../Login/logoutAdmin">Logout</a></li>
 
         </ul>

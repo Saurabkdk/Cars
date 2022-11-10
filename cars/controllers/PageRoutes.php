@@ -28,6 +28,8 @@ class PageRoutes implements \classes\GetRoutes
 
         $tableOfStories = new \classes\DatabaseController($dbConnection, 'stories', 'id');
 
+        $tableOfContacts = new \classes\DatabaseController($dbConnection, 'contacts', 'id');
+
         $pageControllers = [];
 
         $pageControllers['Cars'] = new \controllers\controller\Cars($tableOfCars);
@@ -43,6 +45,8 @@ class PageRoutes implements \classes\GetRoutes
         $pageControllers['Administrators'] = new \controllers\controller\Administrators($tableOfAdministrators);
 
         $pageControllers['Stories'] = new \controllers\controller\Stories($tableOfStories);
+
+        $pageControllers['Contacts'] = new \controllers\controller\Contacts($tableOfContacts);
 
         return $pageControllers[$controllerName];
 
@@ -72,6 +76,9 @@ class PageRoutes implements \classes\GetRoutes
         $routesLoginNeed['Stories/addEdit'] = true;
         $routesLoginNeed['Stories/addEditFillUp'] = true;
         $routesLoginNeed['Stories/delete'] = true;
+        $routesLoginNeed['Contacts/inventory'] = true;
+        $routesLoginNeed['Contacts/enquiryCheck'] = true;
+        $routesLoginNeed['Contacts/delete'] = true;
 
         $LoginRequired = isset($routesLoginNeed[$pageRoute]) ? $routesLoginNeed[$pageRoute] : false;
 

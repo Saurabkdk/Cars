@@ -14,11 +14,13 @@ class PageRoutes implements \classes\GetRoutes
     {
         require '../dbConnection.php';
 
-        $tableOfManufacturers = new \classes\DatabaseController($dbConnection, 'manufacturers', 'id');
+        $tableOfCars1 = new \classes\DatabaseController($dbConnection, 'cars', 'id');
 
         $tableOfCarDescs = new \classes\DatabaseController($dbConnection, 'carDesc', 'id');
 
         $tableOfImages = new \classes\DatabaseController($dbConnection, 'images', 'id');
+
+        $tableOfManufacturers = new \classes\DatabaseController($dbConnection, 'manufacturers', 'id', '\controllers\entityClass\Manufacturer', [$tableOfCars1, $tableOfCarDescs, $tableOfImages]);
 
         $tableOfCars = new \classes\DatabaseController($dbConnection, 'cars', 'id', '\controllers\entityClass\Car', [$tableOfManufacturers, $tableOfCarDescs, $tableOfImages]);
 
@@ -47,6 +49,8 @@ class PageRoutes implements \classes\GetRoutes
         $pageControllers['Stories'] = new \controllers\controller\Stories($tableOfStories);
 
         $pageControllers['Contacts'] = new \controllers\controller\Contacts($tableOfContacts);
+
+        $pageControllers['Manufacturers'] = new \controllers\controller\Manufacturers($tableOfManufacturers);
 
         return $pageControllers[$controllerName];
 

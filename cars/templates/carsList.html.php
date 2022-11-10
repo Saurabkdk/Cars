@@ -2,14 +2,11 @@
 <main class="admin">
 <section class="left">
     <ul>
-<!--        <li><a href="jaguar.php">Jaguar</a></li>-->
-<!--        <li><a href="mercedes.php">Mercedes</a></li>-->
-<!--        <li><a href="aston.php">Aston Martin</a></li>-->
         <?php $manufacturersList = $all[0]->getAllManufacturers(); ?>
         <?php
         foreach ($manufacturersList as $manufacturers) {
         ?>
-            <li><a href="jaguar.php"><?=$manufacturers->name ?></a></li>
+            <li><a href="../Manufacturers/inventory?id=<?=$manufacturers->id ?>"><?=$manufacturers->name ?></a></li>
         <?php } ?>
 
     </ul>
@@ -23,15 +20,6 @@
 
 <?php foreach ($all as $allCar) { ?>
 <li>
-
-<!--    --><?php
-//    foreach ($allCar->getCarImages() as $image){
-//        if (file_exists('../public/images/cars/' . $image->name)) { ?>
-<!--        <a href="../images/cars/--><?//= $image->name ?><!--"><img src="../images/cars/--><?//= $image->name ?><!--" /></a>-->
-<!--     --><?php
-//    }
-//    }
-//    ?>
 
     <div class="details">
         <h2> <?= $allCar->getManufacturerName()->name; ?>  <?= $allCar->name ?> </h2>

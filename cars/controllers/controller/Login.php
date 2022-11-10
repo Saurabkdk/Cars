@@ -21,7 +21,8 @@ class Login
                 }else {
                     $_SESSION['adminLogin'] = 'admin';
                 }
-                redirect("../AdminCars/inventory");
+                $_SESSION['adminName'] = $_POST['username'];
+                redirect("../Stories/inventory");
                 $info = "You are logged in";
                 break 1;
                 return [
@@ -53,7 +54,8 @@ class Login
 
     public function logoutAdmin(){
         unset($_SESSION['adminLogin']);
-        redirect("../Cars/inventory");
+        unset($_SESSION['adminName']);
+        redirect("../Stories/inventory");
     }
 
 }

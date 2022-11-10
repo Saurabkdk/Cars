@@ -19,7 +19,7 @@
 </header>
 <nav>
     <ul>
-        <li><a href="/">Home</a></li>
+        <li><a href="/Stories/inventory">Home</a></li>
         <li><a href="/Cars/inventory">Showroom</a></li>
         <li><a href="/about.html">About Us</a></li>
         <li><a href="/contact.php">Contact us</a></li>

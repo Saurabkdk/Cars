@@ -77,11 +77,14 @@ class AdminArchive
         $this->tableOfCars->addData($data);
 
         $_POST['carDesc']['id'] = $this->tableOfCars->findLastId();
+        $desc = [];
         $desc = $_POST['carDesc'];
-        $this->tableOfCarDescs->saveData($desc);
+
+        redirect("../AdminCars/inventory");
 
         $this->tableOfArchive->deleteData($_GET['id']);
-        redirect("../AdminCars/inventory");
+        $this->tableOfCarDescs->saveData($desc);
+
         return [
             'pageTemplate' => '',
             'titleOfThePage' => '',

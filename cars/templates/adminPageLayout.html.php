@@ -37,6 +37,7 @@
             <li><a href="../AdminCars/inventory">Cars</a></li>
             <li><a href="../AdminArchive/inventory">Archive</a></li>
             <li><a href="../Administrators/inventory">Administrators</a></li>
+            <li><a href="../Stories/addEdit">Add News/Story</a></li>
             <li><a href="../Login/logoutAdmin">Logout</a></li>
 
         </ul>

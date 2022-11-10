@@ -7,7 +7,7 @@ class PageRoutes implements \classes\GetRoutes
 
     public function getTheDefaultPageRoute()
     {
-        return 'Cars/home';
+        return 'Stories/inventory';
     }
 
     public function getThePageController($controllerName)
@@ -26,6 +26,8 @@ class PageRoutes implements \classes\GetRoutes
 
         $tableOfAdministrators = new \classes\DatabaseController($dbConnection, 'administrators', 'id', '\controllers\entityClass\Administrator', [$tableOfCars]);
 
+        $tableOfStories = new \classes\DatabaseController($dbConnection, 'stories', 'id');
+
         $pageControllers = [];
 
         $pageControllers['Cars'] = new \controllers\controller\Cars($tableOfCars);
@@ -39,6 +41,8 @@ class PageRoutes implements \classes\GetRoutes
         $pageControllers['AdminArchive'] = new \controllers\controller\AdminArchive($tableOfArchives, $tableOfCars, $tableOfCarDescs);
 
         $pageControllers['Administrators'] = new \controllers\controller\Administrators($tableOfAdministrators);
+
+        $pageControllers['Stories'] = new \controllers\controller\Stories($tableOfStories);
 
         return $pageControllers[$controllerName];
 
@@ -65,6 +69,9 @@ class PageRoutes implements \classes\GetRoutes
         $routesLoginNeed['Administrators/addEditFillUp'] = true;
         $routesLoginNeed['Administrators/delete'] = true;
         $routesLoginNeed['Administrators/admin'] = true;
+        $routesLoginNeed['Stories/addEdit'] = true;
+        $routesLoginNeed['Stories/addEditFillUp'] = true;
+        $routesLoginNeed['Stories/delete'] = true;
 
         $LoginRequired = isset($routesLoginNeed[$pageRoute]) ? $routesLoginNeed[$pageRoute] : false;
 

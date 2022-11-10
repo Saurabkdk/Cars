@@ -77,7 +77,7 @@ class AdminCars
             $findRecord = $this->tableOfCars->getOne('id', $_GET['id']);
             $findRecordDesc = $this->tableOfCarDescs->getOne('id', $_GET['id']);
             $record = $findRecord[0];
-            $record1 = $findRecordDesc[0];
+            $record1 = $findRecordDesc;
         }
         else{
             $record = false;

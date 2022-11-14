@@ -1,19 +1,27 @@
 <?php
 
+//namespace of the class
 namespace controllers\controller;
 
+//controller class to handle page for contacts
 class Contacts
 {
+    //initialzing the private variables
     private $tableOfContacts;
 
+    //creating a constructor of the class
     public function __construct(\classes\DatabaseController $tableOfContacts)
     {
+        //providing values to the class variables
         $this->tableOfContacts = $tableOfContacts;
     }
 
+    //function to return list all the records for the page
     public function inventory(){
+        //getting all the records
         $inventory = $this->tableOfContacts->getAll();
 
+        //return the template name and records
         return [
             'pageTemplate' => 'enquiryList.html.php',
             'titleOfThePage' => 'Admin',

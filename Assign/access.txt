@@ -1,0 +1,9 @@
+docker compose up in cars folder
+
+homepageurl: cars.v.je
+
+For admin
+username : Claire
+password : claire2022
+
+

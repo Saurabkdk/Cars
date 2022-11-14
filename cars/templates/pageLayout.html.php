@@ -24,6 +24,9 @@
         <li><a href="/about.html">About Us</a></li>
         <li><a href="/Contacts/addEdit">Contact us</a></li>
         <li><a href="/Cars/career">Claire's Career</a></li>
+        <?php if (!isset($_SESSION['adminLogin'])) { ?>
+        <li><a href="/Login/loginAdmin">Login</a></li>
+        <?php } ?>
     </ul>
 
 </nav>

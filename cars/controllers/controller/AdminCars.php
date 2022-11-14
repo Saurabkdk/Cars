@@ -1,27 +1,39 @@
 <?php
 
+//namespace of the class
 namespace controllers\controller;
 
+//controller class to handle page for cars for admin
 class AdminCars
 {
+    //initialzing the private variables
     private $tableOfCars;
     private $tableOfManufacturers;
     private $tableOfArchives;
     private $tableOfCarDescs;
     private $tableOfImages;
+    private $get;
+    private $post;
 
-    public function __construct(\classes\DatabaseController $tableOfCars, \classes\DatabaseController $tableOfManufacturers, \classes\DatabaseController $tableOfArchives, \classes\DatabaseController $tableOfCarDescs, \classes\DatabaseController $tableOfImages)
+    //creating a constructor of the class
+    public function __construct(\classes\DatabaseController $tableOfCars, \classes\DatabaseController $tableOfManufacturers, \classes\DatabaseController $tableOfArchives, \classes\DatabaseController $tableOfCarDescs, \classes\DatabaseController $tableOfImages, $get, $post)
     {
+        //providing values to the class variables
         $this->tableOfCars = $tableOfCars;
         $this->tableOfManufacturers = $tableOfManufacturers;
         $this->tableOfArchives = $tableOfArchives;
         $this->tableOfCarDescs = $tableOfCarDescs;
         $this->tableOfImages = $tableOfImages;
+        $this->get = $get;
+        $this->post = $post;
     }
 
+    //function to return list all the records for the page
     public function inventory(){
+        //getting all the records
         $inventory = $this->tableOfCars->getAll();
 
+        //return the template name and records
         return [
             'pageTemplate' => 'adminCarList.html.php',
             'titleOfThePage' => 'Admin',
@@ -31,59 +43,111 @@ class AdminCars
         ];
     }
 
+    //function to insert the record into the database
     public function addEditFillUp(){
-        $newCar = $_POST['car'];
+        //get the record into a variable
+        $newCar = $this->post['car'];
+
+        //save the data with the database function
         $this->tableOfCars->saveData($newCar);
 
-        if (isset($_POST['car']['id'])){
-            $_POST['carDesc']['id'] = $_POST['car']['id'];
+        //check if there is id and store it
+        if (isset($newCar['car']['id'])){
+            $newCar['carDesc']['id'] = $newCar['id'];
         }
+        //if not find the last id
         else{
-            $_POST['carDesc']['id'] = $this->tableOfCars->findLastId()[0];
+            $newCar['carDesc']['id'] = $this->tableOfCars->findLastId()[0];
         }
 
-        $desc = $_POST['carDesc'];
+        //storing values in variable
+        $desc = $newCar['carDesc'];
+
+        //save data into table with database function
         $this->tableOfCarDescs->saveData($desc);
 
+        //storing the allowed files types while storing images
             $fileTypeAllowed = array('jpg', 'png', 'jpeg');
+
+            //loop through all the images selected
             foreach ($_FILES['image']['name'] as $key=>$value){
+
+                //store the image name
                 $imageName = $_FILES['image']['name'][$key];
+
+                //store the image temporary name
                 $tempName = $_FILES['image']['tmp_name'][$key];
+
+                //destination where all the images will be stored
                 $destination = './images/cars/' . $imageName;
+
+                //find the file type selected
                 $typeFile = strtolower(pathinfo($destination, PATHINFO_EXTENSION));
 
+                //if the file type matches, move the files into the destination folder
                 if (in_array($typeFile, $fileTypeAllowed)){
                     move_uploaded_file($tempName, $destination);
                 }
 
+                //array to store the image data
                 $imageData = [];
-                if (isset($_POST['car']['id'])){
-                    $imageData['id'] = $_POST['car']['id'];
+
+                //check if id is passed
+                if (isset($newCar['car']['id'])){
+                    $imageData['id'] = $newCar['car']['id'];
                 }
+                //if id is not passed, get the last id from the table
                 else{
                     $imageData['id'] = $this->tableOfCars->findLastId()[0];
                 }
-                $imageData['name'] = $imageName;
 
-                $this->tableOfImages->saveData($imageData);
+                //if image is selected, save the image name in the database
+                if (isset($imageData['name'])) {
+                    $imageData['name'] = $imageName;
+
+                    $this->tableOfImages->saveData($imageData);
+                }
 
             }
 
-        redirect("./inventory");
+//        redirect("./inventory");
+            if (isset($this->get['id'])) {
+                $information = "Data updated";
+            }
+            else{
+                $information = "Data added";
+            }
+            return [
+                'pageTemplate' => 'displayInformation.html.php',
+                'titleOfThePage' => 'Admin',
+                'key' => [
+                    'information' => $information
+                ]
+            ];
     }
 
+    //function to display form to add or edit record
     public function addEdit(){
-        if (isset($_GET['id'])){
-            $findRecord = $this->tableOfCars->getOne('id', $_GET['id']);
-            $findRecordDesc = $this->tableOfCarDescs->getOne('id', $_GET['id']);
+        //check to see if an id is sent
+        if (isset($this->get['id'])){
+            //get the saved record
+            $findRecord = $this->tableOfCars->getOne('id', $this->get['id']);
+
+            //get the saved record
+            $findRecordDesc = $this->tableOfCarDescs->getOne('id', $this->get['id']);
             $record = $findRecord[0];
             $record1 = $findRecordDesc;
         }
+        //if no id is sent no record is there
         else{
             $record = false;
             $record1 = false;
         }
+
+        //get the manufacturers record
         $manufacturersRec = $this->tableOfManufacturers->getAll();
+
+        //return the template name and record
         return [
             'pageTemplate' => 'adminAddCar.html.php',
             'titleOfThePage' => 'Admin',
@@ -95,9 +159,15 @@ class AdminCars
         ];
     }
 
+    //function to delete a record
     public function deleteFillUp(){
-        $this->tableOfCars->deleteData($_GET['id']);
+        //database function that deletes the record
+        $this->tableOfCars->deleteData($this->get['id']);
+
+        //redirect back to the list
         redirect("./inventory");
+
+        //return the template name and records
         return [
             'pageTemplate' => '',
             'titleOfThePage' => '',
@@ -105,19 +175,15 @@ class AdminCars
         ];
     }
 
+    //function to add the record into the table
     public function addArchive(){
-//        $archive = $this->tableOfCars->getOne('id', $_GET['id']);
-//        $val = (array) $archive;
-//        var_dump($val);
-//        $data = [];
-//        $data['name'] = $val[0]['name'];
-//        $data['price'] = $val['price'];
-//        $data['manufactureId'] = $val['manufacturerId'];
-//        $data['description'] = $val['description'];
-        $archive = $this->tableOfCars->getOneArr('id', $_GET['id']);
+        //get the record from the table
+        $archive = $this->tableOfCars->getOneArr('id', $this->get['id']);
+
+        //array to store all the data
         $data = [];
-//        $data = $archive[0];
-//        var_dump($data);
+
+        //storing data in the variable with respective keys
         $data['id'] = $archive[0]['id'];
         $data['name'] = $archive[0]['name'];
         $data['price'] = $archive[0]['price'];
@@ -126,9 +192,17 @@ class AdminCars
         $data['newPrice'] = $archive[0]['newPrice'];
         $data['display'] = $archive[0]['display'];
         $data['admin'] = $archive[0]['admin'];
+
+        //storing the data into the table in database
         $this->tableOfArchives->addData($data);
-        $this->tableOfCars->deleteData($_GET['id']);
+
+        //deleting the record from the table
+        $this->tableOfCars->deleteData($this->get['id']);
+
+        //redirect back to the list
         redirect("../AdminArchive/inventory");
+
+        //return the template name and record
         return [
             'pageTemplate' => '',
             'titleOfThePage' => '',
